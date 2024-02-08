@@ -1,7 +1,7 @@
 // Before starting, copy and paste your guided practice work from
 // `binary-search-tree.js` into this file
 
-// Your code here 
+// Your code here
 // Do not change this
 class TreeNode {
   constructor(val) {
@@ -97,7 +97,7 @@ class BinarySearchTree {
         que.push(removed.right);
       }
     }
-    
+
   }
 
   // Depth First Traversal - Iterative
@@ -109,21 +109,11 @@ class BinarySearchTree {
       console.log(removed.val);
       if(removed.left) stack.push(removed.left)
       if(removed.right) stack.push(removed.right);
-      
+
     }
   }
+
+  
 }
-let bst = new BinarySearchTree()
-
-bst.insert(4);
-bst.insert(0);
-bst.insert(6);
-bst.insert(1);
-bst.insert(3);
-bst.insert(5);
-bst.insert(7);
-console.log(bst.search(6));
-console.log(bst.search(2));
-
 
 module.exports = { BinarySearchTree, TreeNode };
