@@ -181,6 +181,93 @@ function inOrderPredecessor(root, target) {
 
 
 function deleteNodeBST(rootNode, target) {
+
+    // You'll need to see if you're deleting the rootNode 
+    // Or if your target is elsewhere in the tree
+  
+    let parent = getParentNode(rootNode, target);
+  
+    // If the target cannot be found, return undefined
+    // Parent will be undefined if getParentNode() can't find target.
+    if (parent === undefined) return undefined;
+  
+  
+    // Parent will be null if getParentNode() finds no parents on target
+    // This will mean our rootNode IS the target
+    if (parent === null) {
+  
+      let rootChildren = 0;
+      if (rootNode.left) rootChildren++;
+      if (rootNode.right) rootChildren++;
+  
+  
+      // Case 0: 0 children
+      // Remember 0 is falsy, so we can make an if statement like this
+      if (!rootChildren) return null
+      // This would be a single node in a BST as the root
+      // This isn't in the mocha tests, but its a logical edge case
+      // There isn't a way to delete it as this data structure isn't like a linkedList
+      // So returning null is as good as it gets
+  
+      // Case 1: 1 child
+      else if (rootChildren === 1) {
+        let child;
+   
+        // Lets practice a ternary. Remember, this is the same as an if else block
+        // what's in front of "?" is the if() statement. After : is the else code.
+        rootNode.left ? child = rootNode.left : child = rootNode.right;
+        deleteNodeBST(rootNode, child.val);
+        rootNode.val = child.val;
+      }
+  
+      // Case 2: 2 children
+      else {
+        let successorVal = findMinBST(rootNode.right);
+        deleteNodeBST(rootNode, successorVal);
+        rootNode.val = successorVal;
+      }
+  
+    } else {
+  
+  // If parent isn't undefined, or null
+      // Then our target is either the left / right child of the parent
+      let targetNode;
+  
+      let isLeft = false;
+      
+      // Is it the left?
+      if (parent.left && parent.left.val === target) isLeft = true;
+      // we do && because if parent.left is undefined/null
+      // we'd get an error trying to check the val
+  
+      // else = target is right. leave isLeft false.
+  
+      isLeft ? targetNode = parent.left : targetNode = parent.right;
+  
+      let targetChildren = 0;
+      if (targetNode.left) targetChildren++;
+      if (targetNode.right) targetChildren++;
+  
+      // Case 0: 0 children
+      if (!targetChildren) isLeft ? parent.left = null : parent.right = null;
+  
+      // Case 1: 1 child
+      else if (targetChildren === 1) {
+        let child;
+        // is the child on left or right of target
+        targetNode.left ? child = targetNode.left : child = targetNode.right;
+  
+        // cut the target by connecting target's parent to target's child
+        isLeft ? parent.left = child : parent.right = child;
+      }
+  
+      else { // 2 Children
+        let successorVal = findMinBST(targetNode.right);
+        deleteNodeBST(rootNode, successorVal);
+        targetNode.val = successorVal;
+      }
+    
+  }
   // Do a traversal to find the node. Keep track of the parent
 
   // Undefined if the target cannot be found
