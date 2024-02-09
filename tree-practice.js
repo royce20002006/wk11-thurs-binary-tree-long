@@ -151,22 +151,29 @@ function getParentNode(rootNode, target) {
 
 
 function inOrderPredecessor(root, target) {
-  if (!root) {
-      return null;
-  }
-
+  // base case if there is no root node
+  if (!root) return null;
+  
+// check if the roots value is the target
   if (root.val === target) {
+    //check to see if the left subtree exists
       if (root.left) {
-          let tmp = root.left;
+        let tmp = root.left;
           while (tmp.right) {
+            // find max value in the left subtree
               tmp = tmp.right;
           }
+          // returns the max value in-order
           return tmp.val;
       }
+      // there is no left subtree
       return null;
+      // if root val is greater than target search the left subtree.
   } else if (root.val > target) {
+    
       return inOrderPredecessor(root.left, target);
   } else {
+    // if root val is less than target search the right subtree.
       let predecessor = inOrderPredecessor(root.right, target);
       return predecessor !== null ? predecessor : root.val;
   }
