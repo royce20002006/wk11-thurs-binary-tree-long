@@ -9,9 +9,7 @@ function findMinBST(rootNode) {
     return -1
   }
   while (rootNode.left) {
-    if (rootNode.left.val < rootNode.val) {
-      rootNode = rootNode.left;
-    }
+    rootNode = rootNode.left;
   }
   return rootNode.val
 }
@@ -21,12 +19,10 @@ function findMaxBST(rootNode) {
     return -1
   }
   while (rootNode.right) {
-    if (rootNode.right.val > rootNode.val) {
-      rootNode = rootNode.right;
-    }
+    rootNode = rootNode.right;
   }
   return rootNode.val
-  //hey
+
 }
 
 function findMinBT(rootNode) {
@@ -45,7 +41,7 @@ function findMinBT(rootNode) {
 
       que.push(removed.left);
     }
-    //oh, hai!
+
     if (removed.right) {
 
       que.push(removed.right);
@@ -98,34 +94,77 @@ function getHeight(rootNode) {
 
 function balancedTree(rootNode) {
   if (!rootNode) {
-    return -1;
-  } else if (!rootNode.left && !rootNode.right) {
-    return 0;
-  } else {
-    let leftHeight = getHeight(rootNode.left);
-    let rightHeight = getHeight(rootNode.right);
-    if (leftHeight > rightHeight) {
-      leftHeight++;
-    } else {
-      rightHeight++;
-    }
-    if (leftHeight === rightHeight ||
-      leftHeight === rightHeight + 1 ||
-      leftHeight === rightHeight - 1 ||
-      rightHeight === leftHeight + 1 ||
-      rightHeight === leftHeight - 1) {
-      return true;
-    } else return false;
-
+    return true;
   }
+
+
+  let leftHeight = getHeight(rootNode.left);
+  let rightHeight = getHeight(rootNode.right);
+  if (Math.abs(leftHeight - rightHeight) <= 1 && balancedTree(rootNode.left) && balancedTree(rootNode.right)) {
+    return true;
+  }
+
+  return false;
 }
 
 function countNodes(rootNode) {
-  // Your code here
+
+  let counter = 0;
+
+  if (!rootNode) {
+    return 0;
+  }
+  if (!rootNode.left && !rootNode.right) {
+    return 1;
+  }
+  let stack = [rootNode];
+  while (stack.length) {
+    let removed = stack.pop()
+    counter++;
+    if (removed.left) {
+      stack.push(removed.left)
+    }
+    if (removed.right) {
+      stack.push(removed.right)
+    }
+  }
+  return counter;
 }
 
-function getParentNode(rootNode, target) {
-  // Your code here
+function getParentNode(rootNode, target,) {
+  /*
+  set variable to hold prev root
+  iterate through tree to the target
+  return prev root
+  */
+  if (!rootNode) {
+    return null;
+  }
+  if (target === rootNode.val) {
+    return null;
+  }
+
+
+  // let queue = [rootNode]
+  // let prev = rootNode.val
+  // while (queue.length) {
+  //   let removed = queue.shift();
+
+  //   if (target === removed.val) {
+  //     return prev;
+  //   }
+
+  //   if (removed.right) {
+  //     prev = removed
+  //     queue.push(removed.right)
+  //   }
+  //   if (removed.left) {
+  //     prev = removed
+  //     queue.push(removed.left)
+  //   }
+
+  // }
+  return undefined;
 }
 
 function inOrderPredecessor(rootNode, target) {
