@@ -131,45 +131,47 @@ function countNodes(rootNode) {
   return counter;
 }
 
-function getParentNode(rootNode, target,) {
-  /*
-  set variable to hold prev root
-  iterate through tree to the target
-  return prev root
-  */
-  if (!rootNode) {
-    return null;
-  }
-  if (target === rootNode.val) {
-    return null;
-  }
+function getParentNode(rootNode, target) {
+  if (!rootNode) return null; // Base case: if the root is null, return null
+  if(rootNode.val === target) return null;
+  if (rootNode.left && rootNode.left.val === target) return rootNode; // Check if the left child of the root is the target
 
+  if (rootNode.right && rootNode.right.val === target) return rootNode; // Check if the right child of the root is the target
 
-  // let queue = [rootNode]
-  // let prev = rootNode.val
-  // while (queue.length) {
-  //   let removed = queue.shift();
+  // Recursive calls to search in the left and right subtrees
+  let leftResult = getParentNode(rootNode.left, target);
+  let rightResult = getParentNode(rootNode.right, target);
 
-  //   if (target === removed.val) {
-  //     return prev;
-  //   }
-
-  //   if (removed.right) {
-  //     prev = removed
-  //     queue.push(removed.right)
-  //   }
-  //   if (removed.left) {
-  //     prev = removed
-  //     queue.push(removed.left)
-  //   }
-
-  // }
-  return undefined;
+  // Return the non-null result among leftResult and rightResult
+  if (leftResult) return leftResult;
+  else if (rightResult) return rightResult;
+  else return undefined; // If target is not found in any subtree, return undefined
+  
 }
 
-function inOrderPredecessor(rootNode, target) {
-  // Your code here
+
+function inOrderPredecessor(root, target) {
+  if (!root) {
+      return null;
+  }
+
+  if (root.val === target) {
+      if (root.left) {
+          let tmp = root.left;
+          while (tmp.right) {
+              tmp = tmp.right;
+          }
+          return tmp.val;
+      }
+      return null;
+  } else if (root.val > target) {
+      return inOrderPredecessor(root.left, target);
+  } else {
+      let predecessor = inOrderPredecessor(root.right, target);
+      return predecessor !== null ? predecessor : root.val;
+  }
 }
+
 
 function deleteNodeBST(rootNode, target) {
   // Do a traversal to find the node. Keep track of the parent
