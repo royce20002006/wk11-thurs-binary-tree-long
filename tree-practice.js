@@ -26,6 +26,7 @@ function findMaxBST(rootNode) {
     }
   }
   return rootNode.val
+  //hey
 }
 
 function findMinBT(rootNode) {
@@ -39,6 +40,7 @@ function findMinBT(rootNode) {
     if (min > removed.val) {
       min = removed.val
     }
+    //work
     if (removed.left) {
 
       que.push(removed.left);
